@@ -180,7 +180,7 @@ def display_simulation_results(results):
     plot_results = filter_data_for_plotting(results)
     
     # Create tabs for different plots
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Dashboard", "Membrane Potential", "Gating Variables", "Ionic Currents", "Data Table"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Dashboard", "Membrane Potential", "Gating Variables", "Ionic Currents"])
     
     with tab1:
         st.markdown("### Comprehensive Dashboard")
@@ -203,23 +203,6 @@ def display_simulation_results(results):
         st.write("IK: K⁺ current | INa: Na⁺ current | IL: Leak current | I_ion: Net current")
         currents_fig = create_ionic_currents_plot(plot_results)
         st.pyplot(currents_fig)
-        
-    with tab5:
-        st.markdown("### Simulation Data")
-        # Create a sample of the data for the table
-        sample_rate = max(1, len(plot_results['t']) // 1000)  # Show max 1000 rows
-        df = pd.DataFrame({
-            'Time (ms)': plot_results['t'][::sample_rate],
-            'V (mV)': plot_results['V'][::sample_rate],
-            'n': plot_results['n'][::sample_rate],
-            'm': plot_results['m'][::sample_rate],
-            'h': plot_results['h'][::sample_rate],
-            'I_ext (µA/cm²)': plot_results['I_ext'][::sample_rate],
-            'IK (µA/cm²)': plot_results['IK'][::sample_rate],
-            'INa (µA/cm²)': plot_results['INa'][::sample_rate],
-            'IL (µA/cm²)': plot_results['IL'][::sample_rate]
-        })
-        st.dataframe(df)
         
         # Option to download the full data
         csv = pd.DataFrame({
