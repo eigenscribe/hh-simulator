@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import json
 from simulation import hodgkin_huxley_sim, create_current_injection_pattern
 from visualization import display_simulation_results
 
@@ -164,6 +165,24 @@ else:  # Advanced mode
 base_current = st.sidebar.number_input("Base Current (µA/cm²)", value=0.0, min_value=-20.0, max_value=20.0, step=0.5)
 global_noise = st.sidebar.number_input("Global Noise Level (µA/cm²)", value=0.0, min_value=0.0, max_value=5.0, step=0.1)
 
+# Function to encode current pattern parameters as JSON
+def encode_current_pattern():
+    pattern_data = {
+        "pulses": custom_pulses,
+        "base_current": base_current,
+        "global_noise": global_noise
+    }
+    return json.dumps(pattern_data)
+
+# Function to decode JSON into current pattern parameters
+def decode_current_pattern(json_data):
+    try:
+        pattern_data = json.loads(json_data)
+        return pattern_data.get("pulses", []), pattern_data.get("base_current", 0.0), pattern_data.get("global_noise", 0.0)
+    except Exception as e:
+        st.error(f"Error parsing the uploaded pattern: {str(e)}")
+        return [], 0.0, 0.0
+
 # Function to run simulation with current parameters
 def run_simulation():
     # Create time vector for visualization
@@ -198,28 +217,159 @@ def run_simulation():
 # Preview current injection
 if st.sidebar.checkbox("Preview Current Injection", value=True):
     t_preview = np.arange(t_start, t_end + dt, dt)
-    current_preview = create_current_injection_pattern(
-        t_preview, 
-        pulses=custom_pulses,
-        base_current=base_current,
-        noise_amplitude=global_noise
-    )
+    
+    # Check if we should preview the uploaded pattern
+    if 'uploaded_pattern' in st.session_state and st.sidebar.checkbox("Preview Uploaded Pattern", value=False):
+        pattern = st.session_state['uploaded_pattern']
+        simulation_pulses = pattern['pulses']
+        simulation_base = pattern['base_current'] 
+        simulation_noise = pattern['global_noise']
+        
+        current_preview = create_current_injection_pattern(
+            t_preview, 
+            pulses=simulation_pulses,
+            base_current=simulation_base,
+            noise_amplitude=simulation_noise
+        )
+        preview_title = "Uploaded Current Pattern"
+    else:
+        # Preview the UI-configured pattern
+        current_preview = create_current_injection_pattern(
+            t_preview, 
+            pulses=custom_pulses,
+            base_current=base_current,
+            noise_amplitude=global_noise
+        )
+        preview_title = "Current Injection Pattern"
     
     # Create a quick preview plot in the sidebar
     fig_preview, ax_preview = plt.subplots(figsize=(3, 2))
     ax_preview.plot(t_preview, current_preview, color="#87CEFA")
     ax_preview.set_xlabel("Time (ms)")
     ax_preview.set_ylabel("Current (µA/cm²)")
-    ax_preview.set_title("Current Injection Pattern")
+    ax_preview.set_title(preview_title)
     ax_preview.grid(True, linestyle="--", alpha=0.6)
     plt.tight_layout()
     st.sidebar.pyplot(fig_preview)
 
+# Current injection pattern management
+st.sidebar.markdown("---")
+st.sidebar.markdown("""
+<h4 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+Current Pattern Management
+</h4>
+""", unsafe_allow_html=True)
+
+# Download current pattern
+current_json = encode_current_pattern()
+st.sidebar.download_button(
+    label="Save Current Pattern",
+    data=current_json,
+    file_name="current_pattern.json",
+    mime="application/json"
+)
+
+# Upload current pattern
+uploaded_file = st.sidebar.file_uploader("Upload Current Pattern", type="json")
+if uploaded_file is not None:
+    uploaded_content = uploaded_file.read().decode("utf-8")
+    uploaded_pulses, uploaded_base, uploaded_noise = decode_current_pattern(uploaded_content)
+    if uploaded_pulses:
+        st.sidebar.success("Current pattern loaded successfully!")
+        # Store the uploaded pattern in session state to be used for simulation
+        st.session_state['uploaded_pattern'] = {
+            'pulses': uploaded_pulses,
+            'base_current': uploaded_base,
+            'global_noise': uploaded_noise
+        }
+        
+# Button to use the uploaded pattern
+if 'uploaded_pattern' in st.session_state and st.sidebar.button("Apply Uploaded Pattern"):
+    # This will be used in simulation instead of UI-configured values
+    st.session_state['use_uploaded_pattern'] = True
+
+# Custom code pattern editor
+with st.sidebar.expander("Edit Current Pattern as Code"):
+    # Initialize the editor with the current pattern
+    if 'pattern_code' not in st.session_state:
+        st.session_state['pattern_code'] = json.dumps(
+            {
+                'pulses': custom_pulses,
+                'base_current': base_current,
+                'global_noise': global_noise
+            }, 
+            indent=2
+        )
+    
+    # The text area for code editing
+    pattern_code = st.text_area(
+        "Edit JSON Pattern Code",
+        value=st.session_state['pattern_code'],
+        height=300,
+        key="pattern_code_editor"
+    )
+    
+    # Button to parse the edited code
+    if st.button("Apply Custom Code"):
+        try:
+            # Parse the JSON code
+            edited_pattern = json.loads(pattern_code)
+            
+            # Store in session state
+            st.session_state['uploaded_pattern'] = edited_pattern
+            st.session_state['use_uploaded_pattern'] = True
+            st.success("Custom pattern code applied!")
+            
+            # Update the session state for next time
+            st.session_state['pattern_code'] = pattern_code
+        except json.JSONDecodeError as e:
+            st.error(f"Invalid JSON format: {str(e)}")
+        except Exception as e:
+            st.error(f"Error applying custom code: {str(e)}")
+
 # Run simulation button
 if st.sidebar.button("Run Simulation", type="primary"):
     with st.spinner("Running Hodgkin-Huxley simulation..."):
-        # Run the simulation
-        sim_results = run_simulation()
+        # Use uploaded pattern if available and selected
+        if 'use_uploaded_pattern' in st.session_state and st.session_state['use_uploaded_pattern'] and 'uploaded_pattern' in st.session_state:
+            pattern = st.session_state['uploaded_pattern']
+            simulation_pulses = pattern['pulses']
+            simulation_base = pattern['base_current'] 
+            simulation_noise = pattern['global_noise']
+            
+            # Create time vector for visualization
+            t_vector = np.arange(t_start, t_end + dt, dt)
+            
+            # Generate current injection pattern using uploaded values
+            current_pattern = create_current_injection_pattern(
+                t_vector, 
+                pulses=simulation_pulses,
+                base_current=simulation_base,
+                noise_amplitude=simulation_noise
+            )
+            
+            # Run simulation with uploaded pattern but current membrane settings
+            sim_results = hodgkin_huxley_sim(
+                t_start=t_start,
+                t_end=t_end,
+                dt=dt,
+                V_initial=initial_voltage,
+                gNa=g_na,
+                gK=g_k,
+                gL=g_l,
+                ENa=e_na,
+                EK=e_k,
+                EL=e_l,
+                Cm=cm,
+                current_injection=current_pattern
+            )
+            
+            # Reset the flag after use
+            st.session_state['use_uploaded_pattern'] = False
+        else:
+            # Run with UI-configured values
+            sim_results = run_simulation()
         
         # Store results in session state
         st.session_state['simulation_results'] = sim_results
