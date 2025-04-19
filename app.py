@@ -255,10 +255,19 @@ if st.sidebar.checkbox("Preview Current Injection", value=True):
 # Current injection pattern management
 st.sidebar.markdown("---")
 st.sidebar.markdown("""
-<h4 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
--webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold; font-size: 1.3rem;">
 Current Pattern Management
-</h4>
+</h3>
+""", unsafe_allow_html=True)
+
+# Add custom CSS for the save button
+st.markdown("""
+<style>
+.stDownloadButton > button {
+    font-size: 0.8rem !important;
+}
+</style>
 """, unsafe_allow_html=True)
 
 # Download current pattern
