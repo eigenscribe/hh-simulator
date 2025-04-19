@@ -140,7 +140,7 @@ def create_ionic_currents_plot(results, fig_width=10, fig_height=10):
 
 def create_comprehensive_dashboard(results, fig_width=12, fig_height=16):
     """Create a comprehensive dashboard with all key variables."""
-    fig, axes = plt.subplots(6, 1, figsize=(fig_width, fig_height), sharex=True, facecolor='#111111')
+    fig, axes = plt.subplots(5, 1, figsize=(fig_width, fig_height), sharex=True, facecolor='#111111')
     
     # Set dark background style for all subplots
     for ax in axes:
@@ -173,21 +173,7 @@ def create_comprehensive_dashboard(results, fig_width=12, fig_height=16):
     # h: Sodium inactivation
     axes[4].plot(results['t'], results['h'], color=green_colors[2], linewidth=2.5)
     axes[4].set_ylabel('h\n(Na⁺ inactivation)', fontsize=12, color='#c5f8ff')
-    
-    # Ionic Currents (bottom plot) - blue theme for currents
-    axes[5].plot(results['t'], results['IK'], color="#00c8ff", linewidth=2.5, label='IK')
-    axes[5].plot(results['t'], results['INa'], color="#14a5ff", linewidth=2.5, label='INa')
-    axes[5].plot(results['t'], results['IL'], color="#00f5db", linewidth=2.5, label='IL')
-    axes[5].plot(results['t'], results['I_ion'], color="#7066ff", linewidth=2.5, linestyle='--', label='I_ion')
-    axes[5].set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
-    axes[5].set_ylabel('Ionic\nCurrents (µA/cm²)', fontsize=12, color='#c5f8ff')
-    
-    # Style the legend for ionic currents
-    legend = axes[5].legend(loc='upper right', fontsize=10)
-    legend.get_frame().set_facecolor('#222222')
-    legend.get_frame().set_edgecolor('#444444')
-    for text in legend.get_texts():
-        text.set_color('#c5f8ff')
+    axes[4].set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
     
     # Adjust layout
     plt.tight_layout()
