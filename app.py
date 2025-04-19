@@ -219,16 +219,6 @@ if 'simulation_ran' in st.session_state and st.session_state['simulation_ran']:
 else:
     # Default view before running simulation
     st.info("Adjust the parameters in the sidebar and click 'Run Simulation' to see the results.")
-    
-    # Simple prompt
-    st.markdown("""
-    ## What to expect
-    
-    The simulation will show:
-    - Membrane potential dynamics
-    - Channel gating behavior
-    - Ionic current flows
-    """)
 
 # Simple footer
 st.markdown("---")
