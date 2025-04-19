@@ -1,0 +1,211 @@
+/* Streamlit Custom Theme for Neural Signal Simulator */
+
+/* Import specialty font */
+@import url('https://fonts.googleapis.com/css2?family=Aclonica&display=swap');
+
+/* Base styling and variables */
+:root {
+    --primary-bg-color: rgba(0, 0, 0, 0.3);
+    --text-color: #c5f8ff;
+    --accent-color: #00f5db;
+    --gradient1: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb);
+    --gradient2: linear-gradient(#00ffee, #27aaff);
+    --gradient3: linear-gradient(#22f793, #27aaff);
+    --semi-transparent-bg: rgba(0, 0, 0, 0.5);
+    --feature-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    --border-radius: 10px;
+}
+
+/* Page background with space theme */
+.stApp {
+    background-image: url('https://raw.githubusercontent.com/lshriver/streamlit-space-bg/main/wisp.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+/* Main container styling */
+.main .block-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--semi-transparent-bg);
+    backdrop-filter: blur(5px);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Text styling */
+html, body, [class*="css"] {
+    font-family: 'Aclonica', sans-serif;
+    color: var(--text-color) !important;
+}
+
+/* Typography adjustments */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Aclonica', sans-serif !important;
+    color: transparent !important;
+    font-weight: bold !important;
+}
+
+/* Gradient text styles */
+h1 {
+    background: var(--gradient1) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    text-align: center;
+    font-size: 2.5rem !important;
+    margin-bottom: 2rem !important;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.7));
+}
+
+h2 {
+    background: var(--gradient2) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    text-align: center;
+    font-size: 2rem !important;
+    margin: 2rem 0 1rem !important;
+}
+
+h3 {
+    background: var(--gradient3) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    text-align: center;
+    font-size: 1.5rem !important;
+    margin: 1.5rem 0 1rem !important;
+}
+
+/* Regular text */
+p, div, span, li {
+    color: var(--text-color) !important;
+    font-family: 'Aclonica', sans-serif;
+}
+
+/* Button styling to match Flask site */
+.stButton > button, .stDownloadButton > button {
+    background-image: var(--gradient1) !important;
+    box-shadow: 0 4px 15px 0 rgba(112, 102, 255, 0.5) !important;
+    width: 180px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: white !important;
+    cursor: pointer !important;
+    height: 45px !important;
+    text-align: center !important;
+    border: none !important;
+    background-size: 300% 100% !important;
+    border-radius: 50px !important;
+    transition: all .4s ease-in-out !important;
+    font-family: 'Aclonica', sans-serif !important;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+.stButton > button:hover, .stDownloadButton > button:hover {
+    background-position: 100% 0 !important;
+    filter: brightness(1.1) !important;
+    transition: all .4s ease-in-out !important;
+}
+
+/* Streamlit widgets styling */
+.stSlider, .stSelectbox, .stCheckbox, .stTextInput, .stTextArea, .stNumberInput {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--accent-color);
+}
+
+/* Slider styling */
+.stSlider > div > div > div {
+    background-color: var(--accent-color) !important;
+}
+
+/* Sidebar styling */
+.css-1d391kg, .css-12oz5g7 {
+    background-color: var(--semi-transparent-bg) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.sidebar .sidebar-content {
+    background-color: var(--semi-transparent-bg) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+/* Expander styling */
+.stExpander {
+    border-radius: var(--border-radius) !important;
+    background-color: var(--primary-bg-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Tabs styling - particularly important for our app */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 24px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+}
+
+.stTabs [data-baseweb="tab"] {
+    height: auto;
+    white-space: pre-wrap;
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-family: 'Aclonica', sans-serif;
+    padding: 0.5rem 1rem;
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--gradient2);
+    color: white !important;
+}
+
+/* Dataframe/Table styling */
+.stDataFrame, .stTable {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.stDataFrame th, .stTable th {
+    background: var(--gradient2) !important;
+    color: white !important;
+    font-weight: bold !important;
+    text-align: center !important;
+}
+
+.stDataFrame td, .stTable td {
+    background: rgba(0, 0, 0, 0.2) !important;
+    color: var(--text-color) !important;
+}
+
+/* Matplotlib figure styling */
+.stImage img, .st-emotion-cache-1v0mbdj img {
+    border-radius: var(--border-radius) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Make sure all scrollbars match the theme */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-image: var(--gradient2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+/* Hide Streamlit branding */
+#MainMenu, footer, header {
+    visibility: hidden;
+}

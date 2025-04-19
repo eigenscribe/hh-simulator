@@ -1,0 +1,366 @@
+/* Streamlit Custom Theme to Match Flask Portfolio Website */
+
+/* Main CSS for adjusting the Streamlit interface */
+@import url('https://fonts.googleapis.com/css2?family=Aclonica&display=swap');
+
+/* Base styling and variables */
+:root {
+    --primary-bg-color: rgba(0, 0, 0, 0.3);
+    --text-color: #c5f8ff;
+    --accent-color: #00f5db;
+    --gradient1: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb);
+    --gradient2: linear-gradient(#00ffee, #27aaff);
+    --gradient3: linear-gradient(#22f793, #27aaff);
+    --semi-transparent-bg: rgba(0, 0, 0, 0.5);
+    --feature-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    --border-radius: 10px;
+}
+
+/* Page background with space theme */
+.stApp {
+    background-image: url('https://raw.githubusercontent.com/lshriver/streamlit-space-bg/main/wisp.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+/* Main container styling */
+.main .block-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--semi-transparent-bg);
+    backdrop-filter: blur(5px);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Text styling */
+html, body, [class*="css"] {
+    font-family: 'Aclonica', sans-serif;
+    color: var(--text-color) !important;
+}
+
+/* Typography adjustments */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Aclonica', sans-serif !important;
+    color: transparent !important;
+    font-weight: bold !important;
+}
+
+/* Gradient text styles */
+h1 {
+    background: var(--gradient1) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    text-align: center;
+    font-size: 2.5rem !important;
+    margin-bottom: 2rem !important;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.7));
+}
+
+h2 {
+    background: var(--gradient2) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    text-align: center;
+    font-size: 2rem !important;
+    margin: 2rem 0 1rem !important;
+}
+
+h3 {
+    background: var(--gradient3) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    text-align: center;
+    font-size: 1.5rem !important;
+    margin: 1.5rem 0 1rem !important;
+}
+
+/* Regular text */
+p, div, span, li {
+    color: var(--text-color) !important;
+    font-family: 'Aclonica', sans-serif;
+}
+
+/* Card/Box styling */
+.stMarkdown, .element-container, div.stButton, div.stDownloadButton {
+    background: var(--primary-bg-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stMarkdown:hover, .element-container:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--feature-box-shadow);
+}
+
+/* Button styling to match Flask site */
+.stButton > button, .stDownloadButton > button {
+    background-image: var(--gradient1) !important;
+    box-shadow: 0 4px 15px 0 rgba(112, 102, 255, 0.5) !important;
+    width: 180px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: white !important;
+    cursor: pointer !important;
+    height: 45px !important;
+    text-align: center !important;
+    border: none !important;
+    background-size: 300% 100% !important;
+    border-radius: 50px !important;
+    transition: all .4s ease-in-out !important;
+    font-family: 'Aclonica', sans-serif !important;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+.stButton > button:hover, .stDownloadButton > button:hover {
+    background-position: 100% 0 !important;
+    filter: brightness(1.1) !important;
+    transition: all .4s ease-in-out !important;
+}
+
+/* Streamlit widgets styling */
+.stSlider, .stSelectbox, .stCheckbox, .stTextInput, .stTextArea, .stNumberInput {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--accent-color);
+}
+
+/* Slider styling */
+.stSlider > div > div > div {
+    background-color: var(--accent-color) !important;
+}
+
+/* Selectbox styling */
+.stSelectbox > div > div > div {
+    background: var(--primary-bg-color);
+    color: var(--text-color) !important;
+}
+
+/* Sidebar styling */
+.css-1d391kg, .css-12oz5g7 {
+    background-color: var(--semi-transparent-bg) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+/* Math container styling */
+.math-container {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Math formula styling */
+.math-formula {
+    text-align: center;
+    margin: 20px 0;
+    color: #00f5db;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+/* Code blocks */
+.stCode, .st-emotion-cache-kecefi, pre {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border-radius: 5px !important;
+    padding: 15px !important;
+    margin: 15px 0 !important;
+    font-family: monospace !important;
+    color: #00f5db !important;
+    overflow-x: auto !important;
+    max-height: 400px !important;
+    font-size: 0.9rem !important;
+}
+
+/* Dataframe/Table styling */
+.stDataFrame, .stTable {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.stDataFrame th, .stTable th {
+    background: var(--gradient2) !important;
+    color: white !important;
+    font-weight: bold !important;
+    text-align: center !important;
+}
+
+.stDataFrame td, .stTable td {
+    background: rgba(0, 0, 0, 0.2) !important;
+    color: var(--text-color) !important;
+}
+
+/* Hide Streamlit branding */
+#MainMenu, footer, header {
+    visibility: hidden;
+}
+
+/* Custom divider */
+.divider {
+    height: 3px;
+    background: var(--gradient2);
+    margin: 2rem 0;
+    border-radius: 3px;
+}
+
+/* Tech tag styling */
+.tech-tag {
+    display: inline-block;
+    background: linear-gradient(130deg, rgba(34, 247, 147, 0.2), rgba(10, 149, 235, 0.2));
+    border: 1px solid rgba(34, 247, 147, 0.3);
+    border-radius: 15px;
+    padding: 3px 10px;
+    margin: 3px;
+    font-size: 0.8rem;
+    color: white;
+}
+
+/* Tabs styling */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 24px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+}
+
+.stTabs [data-baseweb="tab"] {
+    height: auto;
+    white-space: pre-wrap;
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-family: 'Aclonica', sans-serif;
+    padding: 0.5rem 1rem;
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--gradient2);
+    color: white !important;
+}
+
+/* Plotly chart styling */
+.js-plotly-plot .plotly {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    border-radius: var(--border-radius) !important;
+    padding: 10px !important;
+}
+
+/* Matplotlib figure styling */
+.stImage img {
+    border-radius: var(--border-radius) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Progress bar styling */
+.stProgress > div > div > div > div {
+    background-image: var(--gradient3) !important;
+}
+
+/* Custom iframe container with glow effect */
+.iframe-container {
+    position: relative;
+    border-radius: var(--border-radius);
+    margin: 2rem 0;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(34, 247, 147, 0.5), 0 0 30px rgba(10, 149, 235, 0.3);
+    animation: glow 3s infinite alternate;
+}
+
+/* Loading indicator for iframes */
+.iframe-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Aclonica', sans-serif;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    z-index: 10;
+}
+
+/* Glow animation */
+@keyframes glow {
+    from {
+        box-shadow: 0 0 15px rgba(34, 247, 147, 0.5), 0 0 30px rgba(10, 149, 235, 0.3);
+    }
+    to {
+        box-shadow: 0 0 25px rgba(34, 247, 147, 0.7), 0 0 40px rgba(10, 149, 235, 0.5);
+    }
+}
+
+/* LaTeX equation styling */
+.katex-display {
+    background: rgba(0, 0, 0, 0.2) !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    margin: 15px 0 !important;
+    overflow-x: auto !important;
+}
+
+/* Ensure LaTeX uses normal fonts, not Aclonica */
+.katex, .katex-html {
+    font-family: 'KaTeX_Math', serif !important;
+}
+
+/* Notebook-style content boxes */
+.content-box {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    border-left: 3px solid #22f793;
+}
+
+/* Multiselect styling */
+.stMultiSelect > div > div > div {
+    background-color: var(--primary-bg-color) !important;
+    color: var(--text-color) !important;
+    border-radius: 5px !important;
+}
+
+/* Expander styling */
+.stExpander {
+    border-radius: var(--border-radius) !important;
+    background-color: var(--primary-bg-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Link styling */
+a {
+    color: var(--accent-color) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+}
+
+a:hover {
+    filter: brightness(1.2) !important;
+    text-decoration: underline !important;
+}
+
+/* Make sure all scrollbars match the theme */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-image: var(--gradient2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}

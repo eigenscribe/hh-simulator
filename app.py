@@ -13,6 +13,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Load custom CSS
+with open('.streamlit/style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 # App title and introduction
 st.title("Neural Signal Analysis Simulator")
 st.markdown("## Interactive simulator for exploring neural dynamics")
