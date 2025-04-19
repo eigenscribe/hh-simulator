@@ -185,32 +185,63 @@ def display_simulation_results(results):
     # Filter data to start plotting at t=0
     plot_results = filter_data_for_plotting(results)
     
-    # Create tabs for different plots
-    tab1, tab2, tab3, tab4 = st.tabs(["Dashboard", "Membrane Potential", "Gating Variables", "Ionic Currents"])
+    # Apply custom CSS for tabs to match gradient
+    st.markdown("""
+    <style>
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 24px;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        padding: 0.5rem;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        height: auto;
+        white-space: pre-wrap;
+        border-radius: 10px;
+        color: white;
+        font-family: 'Aclonica', sans-serif;
+        padding: 0.5rem 1rem;
+        background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb);
+        background-size: 300% 100%;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background-position: 100% 0;
+        filter: brightness(1.2);
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Create tabs for different plots (removed Ionic Currents)
+    tab1, tab2, tab3 = st.tabs(["Dashboard", "Membrane Potential", "Gating Variables"])
     
     with tab1:
-        st.markdown("### Comprehensive Dashboard")
+        st.markdown("""<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+                    -webkit-background-clip: text; background-clip: text; color: transparent;">Comprehensive Dashboard</h3>""", 
+                    unsafe_allow_html=True)
         dashboard_fig = create_comprehensive_dashboard(plot_results)
         st.pyplot(dashboard_fig)
         
     with tab2:
-        st.markdown("### Membrane Potential")
+        st.markdown("""<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+                    -webkit-background-clip: text; background-clip: text; color: transparent;">Membrane Potential</h3>""", 
+                    unsafe_allow_html=True)
         voltage_fig = create_membrane_potential_plot(plot_results)
         st.pyplot(voltage_fig)
         
     with tab3:
-        st.markdown("### Gating Variables")
-        st.write("n: K⁺ activation | m: Na⁺ activation | h: Na⁺ inactivation")
+        st.markdown("""<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+                    -webkit-background-clip: text; background-clip: text; color: transparent;">Gating Variables</h3>""", 
+                    unsafe_allow_html=True)
+        st.markdown("""<p style="color: #c5f8ff;">n: K⁺ activation | m: Na⁺ activation | h: Na⁺ inactivation</p>""", 
+                   unsafe_allow_html=True)
         gating_fig = create_gating_variables_plot(plot_results)
         st.pyplot(gating_fig)
-        
-    with tab4:
-        st.markdown("### Ionic Currents")
-        st.write("IK: K⁺ current | INa: Na⁺ current | IL: Leak current | I_ion: Net current")
-        currents_fig = create_ionic_currents_plot(plot_results)
-        st.pyplot(currents_fig)
-        
-        # Option to download the full data
+    
+    # Option to download the full data - now available under all tabs
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
         csv = pd.DataFrame({
             'Time (ms)': plot_results['t'],
             'V (mV)': plot_results['V'],

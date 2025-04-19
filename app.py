@@ -45,38 +45,73 @@ if os.path.exists(background_image_path):
         unsafe_allow_html=True
     )
 
-# App title and introduction
-st.title("Neural Signal Analysis Simulator")
-st.markdown("## Interactive simulator for exploring neural dynamics")
+# App title with custom gradient styling
+st.markdown("""
+<h1 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; text-align: center;
+font-family: 'Aclonica', sans-serif; font-weight: bold; font-size: 2.5rem;">
+Neural Signal Analysis Simulator
+</h1>
+""", unsafe_allow_html=True)
 
-# Sidebar for simulation parameters
-st.sidebar.title("Simulation Parameters")
+# Sidebar for simulation parameters with gradient styling for headings
+st.sidebar.markdown("""
+<h2 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+Simulation Parameters
+</h2>
+""", unsafe_allow_html=True)
 
 # Time parameters
-st.sidebar.subheader("Time Settings")
+st.sidebar.markdown("""
+<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+Time Settings
+</h3>
+""", unsafe_allow_html=True)
 t_start = st.sidebar.number_input("Start Time (ms)", value=-30.0, step=10.0)
 t_end = st.sidebar.number_input("End Time (ms)", value=200.0, min_value=50.0, step=50.0)
 dt = st.sidebar.number_input("Time Step (ms)", value=0.01, min_value=0.001, max_value=1.0, step=0.01, format="%.3f")
 
 # Membrane properties
-st.sidebar.subheader("Membrane Properties")
+st.sidebar.markdown("""
+<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+Membrane Properties
+</h3>
+""", unsafe_allow_html=True)
 initial_voltage = st.sidebar.number_input("Initial Membrane Potential (mV)", value=-65.0, step=5.0)
 cm = st.sidebar.number_input("Membrane Capacitance (µF/cm²)", value=1.0, min_value=0.1, step=0.1)
 
 # Channel conductances
-st.sidebar.subheader("Channel Conductances (mS/cm²)")
+st.sidebar.markdown("""
+<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+Channel Conductances (mS/cm²)
+</h3>
+""", unsafe_allow_html=True)
 g_na = st.sidebar.number_input("Sodium (Na⁺) Conductance", value=120.0, min_value=0.0, step=10.0)
 g_k = st.sidebar.number_input("Potassium (K⁺) Conductance", value=36.0, min_value=0.0, step=5.0)
 g_l = st.sidebar.number_input("Leak Conductance", value=0.3, min_value=0.0, step=0.1)
 
 # Reversal potentials
-st.sidebar.subheader("Reversal Potentials (mV)")
+st.sidebar.markdown("""
+<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+Reversal Potentials (mV)
+</h3>
+""", unsafe_allow_html=True)
 e_na = st.sidebar.number_input("Sodium (Na⁺) Reversal Potential", value=50.0, step=5.0)
 e_k = st.sidebar.number_input("Potassium (K⁺) Reversal Potential", value=-77.0, step=5.0)
 e_l = st.sidebar.number_input("Leak Reversal Potential", value=-54.4, step=5.0)
 
 # Current injection parameters
-st.sidebar.subheader("Current Injection")
+st.sidebar.markdown("""
+<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+Current Injection
+</h3>
+""", unsafe_allow_html=True)
 
 # Choice between simple and advanced current injection
 current_mode = st.sidebar.radio(
@@ -95,8 +130,13 @@ if current_mode == "Simple":
     custom_pulses = [{'start': start_time, 'end': start_time + duration, 'amplitude': amplitude, 'noise': noise_level}]
     
 else:  # Advanced mode
-    st.sidebar.markdown("### Custom Current Pulses")
-    st.sidebar.markdown("You can define up to 5 custom current pulses:")
+    st.sidebar.markdown("""
+    <h4 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+    -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+    Custom Current Pulses
+    </h4>
+    """, unsafe_allow_html=True)
+    st.sidebar.markdown("<p style='color: #c5f8ff;'>You can define up to 5 custom current pulses:</p>", unsafe_allow_html=True)
     
     # Initialize pulses list
     custom_pulses = []
@@ -185,33 +225,9 @@ if st.sidebar.button("Run Simulation", type="primary"):
         st.session_state['simulation_results'] = sim_results
         st.session_state['simulation_ran'] = True
 
-# Brief information section
+# Empty expander - no content
 with st.expander("About the Hodgkin-Huxley Model"):
-    st.markdown("""
-    ## The Hodgkin-Huxley Model
-    
-    Developed by Alan Hodgkin and Andrew Huxley (Nobel Prize, 1963), this model describes the electrical activity in neurons.
-    
-    ### Main Elements
-    
-    1. **Membrane Potential (V)**: Voltage across the cell membrane
-    
-    2. **Ion Channels**:
-       - K⁺ channels (potassium)
-       - Na⁺ channels (sodium)
-       - Leak channels
-    
-    3. **Gating Variables**:
-       - n: K⁺ activation
-       - m: Na⁺ activation
-       - h: Na⁺ inactivation
-    
-    ### Core Equation
-    
-    ```
-    Cm * dV/dt = I_ext - (gK * n⁴ * (V - EK) + gNa * m³ * h * (V - ENa) + gL * (V - EL))
-    ```
-    """)
+    pass
 
 # Display simulation results if available
 if 'simulation_ran' in st.session_state and st.session_state['simulation_ran']:
@@ -220,6 +236,12 @@ else:
     # Default view before running simulation
     st.info("Adjust the parameters in the sidebar and click 'Run Simulation' to see the results.")
 
-# Simple footer
+# Gradient footer
 st.markdown("---")
-st.markdown("**Neural Signal Analysis Simulator** | Hodgkin-Huxley model")
+st.markdown("""
+<p style="text-align: center;">
+<span style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
+-webkit-background-clip: text; background-clip: text; color: transparent; font-weight: bold;">
+Neural Signal Analysis Simulator</span> | Hodgkin-Huxley model
+</p>
+""", unsafe_allow_html=True)
