@@ -16,6 +16,15 @@
     --border-radius: 10px;
 }
 
+/* Additional gradient text class */
+.gradient_text2 {
+    font-weight: bold;
+    background: linear-gradient(#00ffee, #27aaff);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
 /* Page background with custom neural network theme */
 .stApp {
     background-image: url('static/images/wisp.jpg');
@@ -116,7 +125,6 @@ p, div, span, li {
     border-radius: var(--border-radius);
     padding: 1rem;
     margin-bottom: 1rem;
-    border-left: 3px solid var(--accent-color);
 }
 
 /* Slider styling */
