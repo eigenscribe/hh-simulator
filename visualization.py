@@ -15,25 +15,33 @@ def filter_data_for_plotting(results, t_min=0):
 
 def create_membrane_potential_plot(results, fig_width=10, fig_height=6):
     """Create a publication-quality plot of membrane potential."""
-    fig, ax = plt.subplots(figsize=(fig_width, fig_height))
+    fig, ax = plt.subplots(figsize=(fig_width, fig_height), facecolor='#111111')
     
-    # Plot membrane potential
-    ax.plot(results['t'], results['V'], color="#4B0082", linewidth=2)
+    # Set dark background style
+    ax.set_facecolor('#111111')
+    for spine in ax.spines.values():
+        spine.set_color('#333333')
+    ax.tick_params(colors='#c5f8ff', which='both')
     
-    # Set labels and grid
-    ax.set_xlabel('Time (ms)', fontsize=12)
-    ax.set_ylabel('Membrane Potential (mV)', fontsize=12)
-    ax.set_title('Membrane Potential Over Time', fontsize=14)
-    ax.grid(True, linestyle='--', alpha=0.7)
+    # Plot membrane potential with gradient-matching color
+    ax.plot(results['t'], results['V'], color="#00c8ff", linewidth=2.5)
+    
+    # Set labels and grid with custom colors
+    ax.set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
+    ax.set_ylabel('Membrane Potential (mV)', fontsize=12, color='#c5f8ff')
+    ax.set_title('Membrane Potential Over Time', fontsize=14, color='#00ffee')
+    ax.grid(True, linestyle='--', alpha=0.3, color='#444444')
     
     # Set axis limits
     ax.set_xlim(min(results['t']), max(results['t']))
     
     # Add current injection dashed line at bottom of plot
     ax_twin = ax.twinx()
-    ax_twin.plot(results['t'], results['I_ext'], 'r--', alpha=0.7, linewidth=1.5)
-    ax_twin.set_ylabel('Current (µA/cm²)', color='r', fontsize=10)
-    ax_twin.tick_params(axis='y', colors='r')
+    ax_twin.plot(results['t'], results['I_ext'], color='#7066ff', linestyle='--', alpha=0.8, linewidth=1.5)
+    ax_twin.set_ylabel('Current (µA/cm²)', color='#7066ff', fontsize=10)
+    ax_twin.tick_params(axis='y', colors='#7066ff')
+    for spine in ax_twin.spines.values():
+        spine.set_color('#333333')
     
     # Ensure there's some padding
     plt.tight_layout()
@@ -42,19 +50,31 @@ def create_membrane_potential_plot(results, fig_width=10, fig_height=6):
 
 def create_gating_variables_plot(results, fig_width=10, fig_height=8):
     """Create a plot showing all three gating variables."""
-    fig, ax = plt.subplots(figsize=(fig_width, fig_height))
+    fig, ax = plt.subplots(figsize=(fig_width, fig_height), facecolor='#111111')
     
-    # Plot the three gating variables
-    ax.plot(results['t'], results['n'], color="#FFA500", linewidth=2, label='n (K⁺ activation)')
-    ax.plot(results['t'], results['m'], color="blue", linewidth=2, label='m (Na⁺ activation)')
-    ax.plot(results['t'], results['h'], color="green", linewidth=2, label='h (Na⁺ inactivation)')
+    # Set dark background style
+    ax.set_facecolor('#111111')
+    for spine in ax.spines.values():
+        spine.set_color('#333333')
+    ax.tick_params(colors='#c5f8ff', which='both')
     
-    # Set labels and grid
-    ax.set_xlabel('Time (ms)', fontsize=12)
-    ax.set_ylabel('Gating Variable Value', fontsize=12)
-    ax.set_title('Hodgkin-Huxley Gating Variables', fontsize=14)
-    ax.grid(True, linestyle='--', alpha=0.7)
-    ax.legend(loc='best', fontsize=10)
+    # Plot the three gating variables with blue-purple themed colors
+    ax.plot(results['t'], results['n'], color="#00c8ff", linewidth=2.5, label='n (K⁺ activation)')
+    ax.plot(results['t'], results['m'], color="#14a5ff", linewidth=2.5, label='m (Na⁺ activation)')
+    ax.plot(results['t'], results['h'], color="#7066ff", linewidth=2.5, label='h (Na⁺ inactivation)')
+    
+    # Set labels and grid with custom colors
+    ax.set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
+    ax.set_ylabel('Gating Variable Value', fontsize=12, color='#c5f8ff')
+    ax.set_title('Hodgkin-Huxley Gating Variables', fontsize=14, color='#00ffee')
+    ax.grid(True, linestyle='--', alpha=0.3, color='#444444')
+    
+    # Style the legend
+    legend = ax.legend(loc='best', fontsize=10)
+    legend.get_frame().set_facecolor('#222222')
+    legend.get_frame().set_edgecolor('#444444')
+    for text in legend.get_texts():
+        text.set_color('#c5f8ff')
     
     # Set axis limits
     ax.set_xlim(min(results['t']), max(results['t']))
@@ -66,20 +86,32 @@ def create_gating_variables_plot(results, fig_width=10, fig_height=8):
 
 def create_ionic_currents_plot(results, fig_width=10, fig_height=8):
     """Create a plot showing ionic currents."""
-    fig, ax = plt.subplots(figsize=(fig_width, fig_height))
+    fig, ax = plt.subplots(figsize=(fig_width, fig_height), facecolor='#111111')
     
-    # Plot the ionic currents
-    ax.plot(results['t'], results['IK'], color="#FF4500", linewidth=2, label='IK (K⁺ current)')
-    ax.plot(results['t'], results['INa'], color="#1E90FF", linewidth=2, label='INa (Na⁺ current)')
-    ax.plot(results['t'], results['IL'], color="#32CD32", linewidth=2, label='IL (Leak current)')
-    ax.plot(results['t'], results['I_ion'], color="magenta", linewidth=2, linestyle='--', label='I_ion (Net ionic)')
+    # Set dark background style
+    ax.set_facecolor('#111111')
+    for spine in ax.spines.values():
+        spine.set_color('#333333')
+    ax.tick_params(colors='#c5f8ff', which='both')
     
-    # Set labels and grid
-    ax.set_xlabel('Time (ms)', fontsize=12)
-    ax.set_ylabel('Current (µA/cm²)', fontsize=12)
-    ax.set_title('Ionic Currents', fontsize=14)
-    ax.grid(True, linestyle='--', alpha=0.7)
-    ax.legend(loc='best', fontsize=10)
+    # Plot the ionic currents with blue-purple gradient theme
+    ax.plot(results['t'], results['IK'], color="#00c8ff", linewidth=2.5, label='IK (K⁺ current)')
+    ax.plot(results['t'], results['INa'], color="#14a5ff", linewidth=2.5, label='INa (Na⁺ current)')
+    ax.plot(results['t'], results['IL'], color="#00f5db", linewidth=2.5, label='IL (Leak current)')
+    ax.plot(results['t'], results['I_ion'], color="#7066ff", linewidth=2.5, linestyle='--', label='I_ion (Net ionic)')
+    
+    # Set labels and grid with custom colors
+    ax.set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
+    ax.set_ylabel('Current (µA/cm²)', fontsize=12, color='#c5f8ff')
+    ax.set_title('Ionic Currents', fontsize=14, color='#00ffee')
+    ax.grid(True, linestyle='--', alpha=0.3, color='#444444')
+    
+    # Style the legend
+    legend = ax.legend(loc='best', fontsize=10)
+    legend.get_frame().set_facecolor('#222222')
+    legend.get_frame().set_edgecolor('#444444')
+    for text in legend.get_texts():
+        text.set_color('#c5f8ff')
     
     # Set axis limits
     ax.set_xlim(min(results['t']), max(results['t']))
@@ -90,36 +122,52 @@ def create_ionic_currents_plot(results, fig_width=10, fig_height=8):
 
 def create_comprehensive_dashboard(results, fig_width=12, fig_height=16):
     """Create a comprehensive dashboard with all key variables."""
-    fig, axes = plt.subplots(4, 1, figsize=(fig_width, fig_height), sharex=True)
+    fig, axes = plt.subplots(4, 1, figsize=(fig_width, fig_height), sharex=True, facecolor='#111111')
+    
+    # Set dark background style for all subplots
+    for ax in axes:
+        ax.set_facecolor('#111111')
+        for spine in ax.spines.values():
+            spine.set_color('#333333')
+        ax.tick_params(colors='#c5f8ff', which='both')
+        ax.grid(True, linestyle='--', alpha=0.3, color='#444444')
     
     # Membrane Potential (top plot)
-    axes[0].plot(results['t'], results['V'], color="#4B0082", linewidth=2)
-    axes[0].set_ylabel('Membrane\nPotential (mV)', fontsize=12)
-    axes[0].set_title('Hodgkin-Huxley Model Simulation Results', fontsize=16)
-    axes[0].grid(True, linestyle='--', alpha=0.7)
+    axes[0].plot(results['t'], results['V'], color="#00c8ff", linewidth=2.5)
+    axes[0].set_ylabel('Membrane\nPotential (mV)', fontsize=12, color='#c5f8ff')
+    axes[0].set_title('Hodgkin-Huxley Model Simulation Results', fontsize=16, color='#00ffee')
     
     # External Current (second plot)
-    axes[1].plot(results['t'], results['I_ext'], color="#87CEFA", linewidth=2)
-    axes[1].set_ylabel('External\nCurrent (µA/cm²)', fontsize=12)
-    axes[1].grid(True, linestyle='--', alpha=0.7)
+    axes[1].plot(results['t'], results['I_ext'], color="#7066ff", linewidth=2.5)
+    axes[1].set_ylabel('External\nCurrent (µA/cm²)', fontsize=12, color='#c5f8ff')
     
     # Gating Variables (third plot)
-    axes[2].plot(results['t'], results['n'], color="#FFA500", linewidth=2, label='n (K⁺ activation)')
-    axes[2].plot(results['t'], results['m'], color="blue", linewidth=2, label='m (Na⁺ activation)')
-    axes[2].plot(results['t'], results['h'], color="green", linewidth=2, label='h (Na⁺ inactivation)')
-    axes[2].set_ylabel('Gating\nVariables', fontsize=12)
-    axes[2].grid(True, linestyle='--', alpha=0.7)
-    axes[2].legend(loc='upper right', fontsize=10)
+    axes[2].plot(results['t'], results['n'], color="#00c8ff", linewidth=2.5, label='n (K⁺ activation)')
+    axes[2].plot(results['t'], results['m'], color="#14a5ff", linewidth=2.5, label='m (Na⁺ activation)')
+    axes[2].plot(results['t'], results['h'], color="#7066ff", linewidth=2.5, label='h (Na⁺ inactivation)')
+    axes[2].set_ylabel('Gating\nVariables', fontsize=12, color='#c5f8ff')
+    
+    # Style the legend for gating variables
+    legend2 = axes[2].legend(loc='upper right', fontsize=10)
+    legend2.get_frame().set_facecolor('#222222')
+    legend2.get_frame().set_edgecolor('#444444')
+    for text in legend2.get_texts():
+        text.set_color('#c5f8ff')
     
     # Ionic Currents (bottom plot)
-    axes[3].plot(results['t'], results['IK'], color="#FF4500", linewidth=2, label='IK')
-    axes[3].plot(results['t'], results['INa'], color="#1E90FF", linewidth=2, label='INa')
-    axes[3].plot(results['t'], results['IL'], color="#32CD32", linewidth=2, label='IL')
-    axes[3].plot(results['t'], results['I_ion'], color="magenta", linewidth=2, linestyle='--', label='I_ion')
-    axes[3].set_xlabel('Time (ms)', fontsize=12)
-    axes[3].set_ylabel('Ionic\nCurrents (µA/cm²)', fontsize=12)
-    axes[3].grid(True, linestyle='--', alpha=0.7)
-    axes[3].legend(loc='upper right', fontsize=10)
+    axes[3].plot(results['t'], results['IK'], color="#00c8ff", linewidth=2.5, label='IK')
+    axes[3].plot(results['t'], results['INa'], color="#14a5ff", linewidth=2.5, label='INa')
+    axes[3].plot(results['t'], results['IL'], color="#00f5db", linewidth=2.5, label='IL')
+    axes[3].plot(results['t'], results['I_ion'], color="#7066ff", linewidth=2.5, linestyle='--', label='I_ion')
+    axes[3].set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
+    axes[3].set_ylabel('Ionic\nCurrents (µA/cm²)', fontsize=12, color='#c5f8ff')
+    
+    # Style the legend for ionic currents
+    legend3 = axes[3].legend(loc='upper right', fontsize=10)
+    legend3.get_frame().set_facecolor('#222222')
+    legend3.get_frame().set_edgecolor('#444444')
+    for text in legend3.get_texts():
+        text.set_color('#c5f8ff')
     
     # Adjust layout
     plt.tight_layout()
