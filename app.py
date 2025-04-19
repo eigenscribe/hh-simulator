@@ -261,11 +261,12 @@ Current Pattern Management
 </h3>
 """, unsafe_allow_html=True)
 
-# Add custom CSS for the save button
+# Add custom CSS for the save button and other buttons in the sidebar
 st.markdown("""
 <style>
-.stDownloadButton > button {
-    font-size: 0.8rem !important;
+.stDownloadButton > button, [data-testid="baseButton-secondary"], .sidebar .stButton > button {
+    font-size: 0.65rem !important;
+    padding: 0.25rem 0.5rem !important;
 }
 </style>
 """, unsafe_allow_html=True)
