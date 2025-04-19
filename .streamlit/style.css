@@ -16,9 +16,9 @@
     --border-radius: 10px;
 }
 
-/* Page background with space theme */
+/* Page background with custom neural network theme */
 .stApp {
-    background-image: url('https://raw.githubusercontent.com/lshriver/streamlit-space-bg/main/wisp.jpg');
+    background-image: url('static/images/wisp.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;

@@ -13,9 +13,37 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Load custom CSS
+# Load custom CSS and make static files accessible
 with open('.streamlit/style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# Make static files accessible
+import os
+import base64
+from pathlib import Path
+
+def get_img_as_base64(file_path):
+    with open(file_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode()
+
+# Create background style using base64 encoded image
+background_image_path = "static/images/wisp.jpg"
+if os.path.exists(background_image_path):
+    img_base64 = get_img_as_base64(background_image_path)
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{img_base64}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
 # App title and introduction
 st.title("Neural Signal Analysis Simulator")
