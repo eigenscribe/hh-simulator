@@ -265,8 +265,9 @@ Current Pattern Management
 st.markdown("""
 <style>
 .stDownloadButton > button, [data-testid="baseButton-secondary"], .sidebar .stButton > button {
-    font-size: 0.65rem !important;
-    padding: 0.25rem 0.5rem !important;
+    font-size: 0.55rem !important;
+    padding: 0.2rem 0.4rem !important;
+    line-height: 0.8 !important;
 }
 </style>
 """, unsafe_allow_html=True)
