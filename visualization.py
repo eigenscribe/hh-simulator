@@ -146,24 +146,13 @@ def display_simulation_results(results):
         
     with tab3:
         st.markdown("### Gating Variables")
-        st.write("""
-        The gating variables control the opening and closing of ion channels:
-        - **n**: Potassium (K⁺) channel activation
-        - **m**: Sodium (Na⁺) channel activation
-        - **h**: Sodium (Na⁺) channel inactivation
-        """)
+        st.write("n: K⁺ activation | m: Na⁺ activation | h: Na⁺ inactivation")
         gating_fig = create_gating_variables_plot(plot_results)
         st.pyplot(gating_fig)
         
     with tab4:
         st.markdown("### Ionic Currents")
-        st.write("""
-        The ionic currents represent the flow of specific ions through the membrane:
-        - **IK**: Potassium current (K⁺)
-        - **INa**: Sodium current (Na⁺)
-        - **IL**: Leak current
-        - **I_ion**: Net ionic current (sum of all currents)
-        """)
+        st.write("IK: K⁺ current | INa: Na⁺ current | IL: Leak current | I_ion: Net current")
         currents_fig = create_ionic_currents_plot(plot_results)
         st.pyplot(currents_fig)
         

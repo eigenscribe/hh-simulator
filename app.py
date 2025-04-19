@@ -15,11 +15,7 @@ st.set_page_config(
 
 # App title and introduction
 st.title("Neural Signal Analysis Simulator")
-st.markdown("""
-This application simulates neural signal dynamics using the Hodgkin-Huxley model, which describes how action potentials are initiated and propagated in neurons.
-
-The Hodgkin-Huxley model is a set of nonlinear differential equations that approximate the electrical characteristics of excitable cells such as neurons and muscle cells.
-""")
+st.markdown("## Interactive simulator for exploring neural dynamics")
 
 # Sidebar for simulation parameters
 st.sidebar.title("Simulation Parameters")
@@ -157,44 +153,32 @@ if st.sidebar.button("Run Simulation", type="primary"):
         st.session_state['simulation_results'] = sim_results
         st.session_state['simulation_ran'] = True
 
-# Explanation section
+# Brief information section
 with st.expander("About the Hodgkin-Huxley Model"):
     st.markdown("""
     ## The Hodgkin-Huxley Model
     
-    The Hodgkin-Huxley model is the foundational mathematical model that describes how action potentials in neurons are initiated and propagated. It was developed by Alan Hodgkin and Andrew Huxley, who received the Nobel Prize in 1963 for this work.
+    Developed by Alan Hodgkin and Andrew Huxley (Nobel Prize, 1963), this model describes the electrical activity in neurons.
     
-    ### Key Components
+    ### Main Elements
     
-    1. **Membrane Potential (V)**: The voltage difference across the cell membrane.
+    1. **Membrane Potential (V)**: Voltage across the cell membrane
     
-    2. **Ion Channels**: The model includes three types of channels:
-       - Voltage-gated potassium channels (K⁺)
-       - Voltage-gated sodium channels (Na⁺)
-       - Leak channels (primarily carrying Cl⁻)
+    2. **Ion Channels**:
+       - K⁺ channels (potassium)
+       - Na⁺ channels (sodium)
+       - Leak channels
     
     3. **Gating Variables**:
-       - **n**: Activation of potassium channels
-       - **m**: Activation of sodium channels
-       - **h**: Inactivation of sodium channels
+       - n: K⁺ activation
+       - m: Na⁺ activation
+       - h: Na⁺ inactivation
     
-    ### Mathematical Representation
+    ### Core Equation
     
-    The model is described by the following differential equations:
-    
-    **Membrane potential**:
     ```
     Cm * dV/dt = I_ext - (gK * n⁴ * (V - EK) + gNa * m³ * h * (V - ENa) + gL * (V - EL))
     ```
-    
-    **Gating variables**:
-    ```
-    dn/dt = αn(V) * (1 - n) - βn(V) * n
-    dm/dt = αm(V) * (1 - m) - βm(V) * m
-    dh/dt = αh(V) * (1 - h) - βh(V) * h
-    ```
-    
-    where α and β are voltage-dependent rate constants that determine the opening and closing of ion channels.
     """)
 
 # Display simulation results if available
@@ -204,21 +188,16 @@ else:
     # Default view before running simulation
     st.info("Adjust the parameters in the sidebar and click 'Run Simulation' to see the results.")
     
-    # Show sample image
+    # Simple prompt
     st.markdown("""
-    ## Example Output
+    ## What to expect
     
-    After running the simulation, you'll see detailed visualizations of:
-    - Membrane potential over time
-    - Gating variables (n, m, h)
-    - Ionic currents
-    - Comprehensive dashboards
-    
-    You can customize the stimulus pattern and membrane properties to observe different neuronal behaviors.
+    The simulation will show:
+    - Membrane potential dynamics
+    - Channel gating behavior
+    - Ionic current flows
     """)
 
-# Footer with information
+# Simple footer
 st.markdown("---")
-st.markdown("""
-**Neural Signal Analysis Simulator** | Based on the Hodgkin-Huxley model | Created with Streamlit
-""")
+st.markdown("**Neural Signal Analysis Simulator** | Hodgkin-Huxley model")
