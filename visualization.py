@@ -3,6 +3,11 @@ import numpy as np
 import streamlit as st
 import pandas as pd
 
+# Configure matplotlib to use Aclonica font and enable LaTeX rendering
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['font.sans-serif'] = ['Aclonica', 'Arial', 'DejaVu Sans']
+plt.rcParams['mathtext.fontset'] = 'dejavusans'
+
 def filter_data_for_plotting(results, t_min=0):
     """Filter simulation data to start at t_min."""
     idx = results['t'] >= t_min
@@ -27,9 +32,9 @@ def create_membrane_potential_plot(results, fig_width=10, fig_height=6):
     ax.plot(results['t'], results['V'], color="#7066ff", linewidth=2.5)
     
     # Set labels and grid with custom colors
-    ax.set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
-    ax.set_ylabel('Membrane Potential (mV)', fontsize=12, color='#c5f8ff')
-    ax.set_title('Membrane Potential Over Time', fontsize=14, color='#00ffee')
+    ax.set_xlabel(r'Time (ms)', fontsize=12, color='#c5f8ff')
+    ax.set_ylabel(r'Membrane Potential $V$ (mV)', fontsize=12, color='#c5f8ff')
+    ax.set_title(r'Membrane Potential Over Time', fontsize=14, color='#00ffee')
     ax.grid(True, linestyle='--', alpha=0.3, color='#444444')
     
     # Set axis limits
@@ -38,7 +43,7 @@ def create_membrane_potential_plot(results, fig_width=10, fig_height=6):
     # Add current injection dashed line at bottom of plot (current in blue)
     ax_twin = ax.twinx()
     ax_twin.plot(results['t'], results['I_ext'], color='#00c8ff', linestyle='--', alpha=0.8, linewidth=1.5)
-    ax_twin.set_ylabel('Current (µA/cm²)', color='#00c8ff', fontsize=10)
+    ax_twin.set_ylabel(r'Current $I$ (µA/cm²)', color='#00c8ff', fontsize=10)
     ax_twin.tick_params(axis='y', colors='#00c8ff')
     for spine in ax_twin.spines.values():
         spine.set_color('#333333')
@@ -68,24 +73,24 @@ def create_gating_variables_plot(results, fig_width=10, fig_height=12):
     
     # n: Potassium activation
     axes[0].plot(results['t'], results['n'], color=green_colors[0], linewidth=2.5)
-    axes[0].set_ylabel('n', fontsize=12, color='#c5f8ff')
-    axes[0].set_title('Potassium Activation (n)', fontsize=14, color='#00ffee')
+    axes[0].set_ylabel(r'$n$', fontsize=12, color='#c5f8ff')
+    axes[0].set_title(r'Potassium Activation ($n$)', fontsize=14, color='#00ffee')
     
     # m: Sodium activation
     axes[1].plot(results['t'], results['m'], color=green_colors[1], linewidth=2.5)
-    axes[1].set_ylabel('m', fontsize=12, color='#c5f8ff')
-    axes[1].set_title('Sodium Activation (m)', fontsize=14, color='#00ffee')
+    axes[1].set_ylabel(r'$m$', fontsize=12, color='#c5f8ff')
+    axes[1].set_title(r'Sodium Activation ($m$)', fontsize=14, color='#00ffee')
     
     # h: Sodium inactivation
     axes[2].plot(results['t'], results['h'], color=green_colors[2], linewidth=2.5)
-    axes[2].set_ylabel('h', fontsize=12, color='#c5f8ff')
-    axes[2].set_title('Sodium Inactivation (h)', fontsize=14, color='#00ffee')
+    axes[2].set_ylabel(r'$h$', fontsize=12, color='#c5f8ff')
+    axes[2].set_title(r'Sodium Inactivation ($h$)', fontsize=14, color='#00ffee')
     
     # Set common x-axis label
-    axes[2].set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
+    axes[2].set_xlabel(r'Time (ms)', fontsize=12, color='#c5f8ff')
     
     # Overall title
-    fig.suptitle('Hodgkin-Huxley Gating Variables', fontsize=16, color='#00ffee')
+    fig.suptitle(r'Hodgkin-Huxley Gating Variables', fontsize=16, color='#00ffee')
     
     plt.tight_layout()
     plt.subplots_adjust(top=0.92)  # Make room for suptitle
@@ -111,27 +116,27 @@ def create_ionic_currents_plot(results, fig_width=10, fig_height=10):
     
     # Potassium Current
     axes[0].plot(results['t'], results['IK'], color=blue_colors[0], linewidth=2.5)
-    axes[0].set_ylabel('IK\n(K⁺ current)', fontsize=12, color='#c5f8ff')
-    axes[0].set_title('Potassium Current', fontsize=14, color='#00ffee')
+    axes[0].set_ylabel(r'$I_{\mathrm{K}}$' + '\n' + r'($\mathrm{K^+}$ current)', fontsize=12, color='#c5f8ff')
+    axes[0].set_title(r'Potassium Current', fontsize=14, color='#00ffee')
     
     # Sodium Current
     axes[1].plot(results['t'], results['INa'], color=blue_colors[1], linewidth=2.5)
-    axes[1].set_ylabel('INa\n(Na⁺ current)', fontsize=12, color='#c5f8ff')
-    axes[1].set_title('Sodium Current', fontsize=14, color='#00ffee')
+    axes[1].set_ylabel(r'$I_{\mathrm{Na}}$' + '\n' + r'($\mathrm{Na^+}$ current)', fontsize=12, color='#c5f8ff')
+    axes[1].set_title(r'Sodium Current', fontsize=14, color='#00ffee')
     
     # Leak Current
     axes[2].plot(results['t'], results['IL'], color=blue_colors[2], linewidth=2.5)
-    axes[2].set_ylabel('IL\n(Leak current)', fontsize=12, color='#c5f8ff')
-    axes[2].set_title('Leak Current', fontsize=14, color='#00ffee')
+    axes[2].set_ylabel(r'$I_{\mathrm{L}}$' + '\n(Leak current)', fontsize=12, color='#c5f8ff')
+    axes[2].set_title(r'Leak Current', fontsize=14, color='#00ffee')
     
     # Net Ionic Current
     axes[3].plot(results['t'], results['I_ion'], color=blue_colors[3], linewidth=2.5)
-    axes[3].set_ylabel('I_ion\n(Net current)', fontsize=12, color='#c5f8ff')
-    axes[3].set_title('Net Ionic Current', fontsize=14, color='#00ffee')
-    axes[3].set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
+    axes[3].set_ylabel(r'$I_{\mathrm{ion}}$' + '\n(Net current)', fontsize=12, color='#c5f8ff')
+    axes[3].set_title(r'Net Ionic Current', fontsize=14, color='#00ffee')
+    axes[3].set_xlabel(r'Time (ms)', fontsize=12, color='#c5f8ff')
     
     # Overall title
-    fig.suptitle('Ionic Currents (µA/cm²)', fontsize=16, color='#00ffee')
+    fig.suptitle(r'Ionic Currents (µA/cm²)', fontsize=16, color='#00ffee')
     
     plt.tight_layout()
     plt.subplots_adjust(top=0.92)  # Make room for suptitle
@@ -152,28 +157,28 @@ def create_comprehensive_dashboard(results, fig_width=12, fig_height=16):
     
     # Membrane Potential (top plot) - purple for voltage
     axes[0].plot(results['t'], results['V'], color="#7066ff", linewidth=2.5)
-    axes[0].set_ylabel('Membrane\nPotential (mV)', fontsize=12, color='#c5f8ff')
-    axes[0].set_title('Hodgkin-Huxley Model Simulation Results', fontsize=16, color='#00ffee')
+    axes[0].set_ylabel(r'Membrane' + '\n' + r'Potential $V$ (mV)', fontsize=12, color='#c5f8ff')
+    axes[0].set_title(r'Hodgkin-Huxley Model Simulation Results', fontsize=16, color='#00ffee')
     
     # External Current (second plot) - blue for current
     axes[1].plot(results['t'], results['I_ext'], color="#00c8ff", linewidth=2.5)
-    axes[1].set_ylabel('External\nCurrent (µA/cm²)', fontsize=12, color='#c5f8ff')
+    axes[1].set_ylabel(r'External' + '\n' + r'Current $I_{\mathrm{ext}}$ (µA/cm²)', fontsize=12, color='#c5f8ff')
     
     # Individual Gating Variables (green theme)
     green_colors = ["#00ffaa", "#00cc99", "#009977"]
     
     # n: Potassium activation
     axes[2].plot(results['t'], results['n'], color=green_colors[0], linewidth=2.5)
-    axes[2].set_ylabel('n\n(K⁺ activation)', fontsize=12, color='#c5f8ff')
+    axes[2].set_ylabel(r'$n$' + '\n' + r'($\mathrm{K^+}$ activation)', fontsize=12, color='#c5f8ff')
     
     # m: Sodium activation
     axes[3].plot(results['t'], results['m'], color=green_colors[1], linewidth=2.5)
-    axes[3].set_ylabel('m\n(Na⁺ activation)', fontsize=12, color='#c5f8ff')
+    axes[3].set_ylabel(r'$m$' + '\n' + r'($\mathrm{Na^+}$ activation)', fontsize=12, color='#c5f8ff')
     
     # h: Sodium inactivation
     axes[4].plot(results['t'], results['h'], color=green_colors[2], linewidth=2.5)
-    axes[4].set_ylabel('h\n(Na⁺ inactivation)', fontsize=12, color='#c5f8ff')
-    axes[4].set_xlabel('Time (ms)', fontsize=12, color='#c5f8ff')
+    axes[4].set_ylabel(r'$h$' + '\n' + r'($\mathrm{Na^+}$ inactivation)', fontsize=12, color='#c5f8ff')
+    axes[4].set_xlabel(r'Time (ms)', fontsize=12, color='#c5f8ff')
     
     # Adjust layout
     plt.tight_layout()
@@ -234,7 +239,7 @@ def display_simulation_results(results):
         st.markdown("""<h3 style="background-image: linear-gradient(to right bottom, #00c8ff, #14a5ff, #7066ff, #5e17eb); 
                     -webkit-background-clip: text; background-clip: text; color: transparent;">Gating Variables</h3>""", 
                     unsafe_allow_html=True)
-        st.markdown("""<p style="color: #c5f8ff;">n: K⁺ activation | m: Na⁺ activation | h: Na⁺ inactivation</p>""", 
+        st.markdown("""<p style="color: #c5f8ff;"><i>n</i>: K⁺ activation | <i>m</i>: Na⁺ activation | <i>h</i>: Na⁺ inactivation</p>""", 
                    unsafe_allow_html=True)
         gating_fig = create_gating_variables_plot(plot_results)
         st.pyplot(gating_fig)
